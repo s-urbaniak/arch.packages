@@ -2,7 +2,7 @@
 
 pkgname=direnv-bin
 _pkgname=direnv
-pkgver=2.9.0
+pkgver=2.10.0
 pkgrel=1
 pkgdesc="Unclutter your .profile http://direnv.net"
 arch=('x86_64')
@@ -11,7 +11,7 @@ licence=('MIT')
 provides=("direnv=${pkgver}")
 conflicts=('direnv')
 source_x86_64=("https://github.com/direnv/direnv/releases/download/v${pkgver}/direnv.linux-amd64")
-md5sums_x86_64=('fa4ffc5ebc753fe86bb9b78e49f7b7b6')
+md5sums_x86_64=('086ed25bfaa7341359027cb7991fbf83')
 
 _PKGARCH=amd64
 
