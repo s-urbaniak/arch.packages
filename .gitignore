@@ -1,0 +1,10 @@
+**/*.swp
+**/pkg
+**/src
+**/*.pkg.tar.xz
+**/*.pkg.tar
+**/*.tar.gz
+**/*linux-amd64
+rtags/rtags
+rtags/packed-refs
+rtags/objects

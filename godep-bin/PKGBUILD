@@ -1,0 +1,21 @@
+#Maintainer wicast <wicastchen at hotmail>
+
+pkgname=godep-bin
+_pkgname=godep
+pkgver=74
+pkgrel=1
+pkgdesc="godep helps build packages reproducibly by fixing their dependencies"
+arch=('x86_64')
+url='https://github.com/tools/godep'
+licence=('BSD')
+provides=("${_pkgname}=${pkgver}")
+conflicts=('godep')
+source_x86_64=("https://github.com/tools/godep/releases/download/v${pkgver}/${_pkgname}_linux_amd64")
+md5sums_x86_64=('b5b9651a3b01a71f085bb2996452f5df')
+
+_PKGARCH=amd64
+
+package() {
+    cd $srcdir
+    install -Dm755 "$_pkgname"_linux_amd64 "${pkgdir}/usr/bin/${_pkgname}"
+}

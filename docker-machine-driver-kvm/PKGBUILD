@@ -1,0 +1,20 @@
+#Maintainer sur <sergiusz.urbaniak@gmail.com>
+
+pkgname=docker-machine-kvm-bin
+_pkgname=docker-machine-kvm
+pkgver=0.7.0
+pkgrel=1
+pkgdesc="Simplified Go project management, dependency management, and vendoring."
+arch=('x86_64')
+url='https://github.com/dhiltgen/docker-machine-kvm'
+provides=("docker-machine-kvm=${pkgver}")
+conflicts=('docker-machine-kvm')
+source_x86_64=("https://github.com/dhiltgen/${_pkgname}/releases/download/v${pkgver}/docker-machine-driver-kvm")
+md5sums_x86_64=('519d29300df740a73c90d048e5df43fb')
+
+_PKGARCH=amd64
+
+package() {
+    cd $srcdir
+    install -Dm755 docker-machine-driver-kvm "${pkgdir}/usr/bin/docker-machine-driver-kvm"
+}

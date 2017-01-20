@@ -1,0 +1,28 @@
+#Maintainer sur <sergiusz.urbaniak@gmail.com>
+
+pkgname=glide-bin
+_pkgname=glide
+pkgver=0.12.3
+pkgrel=1
+pkgdesc="Simplified Go project management, dependency management, and vendoring."
+arch=('x86_64' 'i686')
+url='https://github.com/Masterminds/glide'
+licence=('MIT')
+provides=("glide=${pkgver}")
+conflicts=('glide')
+source_x86_64=("https://github.com/Masterminds/glide/releases/download/v${pkgver}/${_pkgname}-v${pkgver}-linux-amd64.tar.gz")
+source_i686=("https://github.com/Masterminds/glide/releases/download/v${pkgver}/${_pkgname}-v${pkgver}-linux-386.tar.gz")
+md5sums_x86_64=('6bf0971dc56fb8ce0c4ba5d20e9ac0f7')
+md5sums_i686=('0956efd13cbc81321ebcfa02ec3daad1')
+
+if [ "$CARCH" = "i686"  ]; then
+    _PKGARCH=386
+else
+    _PKGARCH=amd64
+fi
+
+package() {
+    cd $srcdir/linux-$_PKGARCH
+    install -Dm755 "$_pkgname" "${pkgdir}/usr/bin/${_pkgname}"
+    install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}

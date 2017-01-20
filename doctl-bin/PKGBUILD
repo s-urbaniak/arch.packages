@@ -1,0 +1,19 @@
+#Maintainer sur <sergiusz.urbaniak@gmail.com>
+
+pkgname=doctl-bin
+_pkgname=doctl
+pkgver=1.4.0
+pkgrel=1
+pkgdesc="A command line tool for DigitalOcean services"
+arch=('x86_64')
+url='https://github.com/digitalocean/doctl'
+provides=("doctl=${pkgver}")
+conflicts=('doctl')
+source_x86_64=("https://github.com/digitalocean/${_pkgname}/releases/download/v${pkgver}/${_pkgname}-${pkgver}-linux-amd64.tar.gz")
+md5sums_x86_64=('6622b1881fbe52e6f290dcaf05dc92d9')
+_PKGARCH=amd64
+
+package() {
+    cd $srcdir
+    install -Dm755 "$_pkgname" "${pkgdir}/usr/bin/${_pkgname}"
+}
