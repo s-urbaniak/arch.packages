@@ -2,7 +2,7 @@
 
 pkgname=minikube-bin
 _pkgname=minikube
-pkgver=0.12.2
+pkgver=0.15.0
 pkgrel=1
 pkgdesc="Minikube is a tool that makes it easy to run Kubernetes locally."
 arch=('x86_64')
@@ -11,7 +11,7 @@ licence=('MIT')
 provides=("minikube=${pkgver}")
 conflicts=('minikube')
 source_x86_64=("https://github.com/kubernetes/minikube/releases/download/v${pkgver}/${_pkgname}-linux-amd64")
-md5sums_x86_64=('b7490e41854ef77bbd89f46ce4bc2edd')
+md5sums_x86_64=('3f07b4de4c65c4a39105385f8efb644e')
 
 _PKGARCH=amd64
 
