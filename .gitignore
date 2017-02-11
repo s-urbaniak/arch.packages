@@ -1,6 +1,7 @@
 **/*.swp
 **/pkg
 **/src
+**/*.part
 **/*.zip
 **/*.zip.sig
 **/*.pkg.tar.xz
