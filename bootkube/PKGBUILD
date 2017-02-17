@@ -1,0 +1,30 @@
+# Maintainer: Sergiusz Urbaniak <sergiusz.urbaniak@gmail.com>
+
+pkgname=bootkube
+pkgver=0.3.8
+pkgrel=1
+pkgdesc="Launch a self-hosted Kubernetes cluster"
+url='https://github.com/kubernetes-incubator/bootkube'
+arch=('i686' 'x86_64')
+license=('MPL')
+makedepends=('go' 'git')
+conflicts=('bootkube-bin')
+_gourl=github.com/kubernetes-incubator/bootkube
+source=("${pkgname}::git+https://${_gourl}.git#tag=v${pkgver}")
+sha256sums=('SKIP')
+
+prepare() {
+  mkdir -p "${srcdir}/src/${_gourl}"
+  rm -rf "${srcdir}/src/${_gourl}"
+  mv -f "${pkgname}" "${srcdir}/src/${_gourl}"
+  cd "${srcdir}/src/${_gourl}"
+}
+
+build() {
+  cd "${srcdir}/src/${_gourl}"
+  GOPATH="${srcdir}" PATH="${srcdir}/bin:${PATH}" make
+}
+
+package() {
+  install -Dm755 "${srcdir}/src/${_gourl}/_output/bin/linux/bootkube" "${pkgdir}/usr/bin/bootkube"
+}
