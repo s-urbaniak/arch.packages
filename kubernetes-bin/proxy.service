@@ -1,0 +1,18 @@
+[Unit]
+Description=Kubernetes proxy
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+After=apiserver.service
+
+[Service]
+Environment=IP_INT=10.130.0.1
+
+ExecStart=/usr/bin/hyperkube proxy \
+    --bind-address=${IP_INT} \
+    --master=http://localhost:8080
+
+Restart=on-failure
+# Type=notify # hyperkube seems not to signal
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

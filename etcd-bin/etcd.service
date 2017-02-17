@@ -1,0 +1,23 @@
+[Unit]
+Description=etcd
+After=network-online.target
+
+[Service]
+Type=notify
+TimeoutStartSec=0
+Environment=INDEX=0
+Environment=IP_INT=10.130.0.1
+
+ExecStart=/usr/bin/etcd --name master${INDEX} \
+  --data-dir /var/lib/etcd \
+  \
+  --listen-client-urls "http://0.0.0.0:2379" \
+  --advertise-client-urls "http://${IP_INT}:2379" \
+  \
+  --listen-peer-urls "http://0.0.0.0:2380" \
+  \
+  --heartbeat-interval 200 \
+  --election-timeout 5000
+
+Restart=always
+StartLimitInterval=0

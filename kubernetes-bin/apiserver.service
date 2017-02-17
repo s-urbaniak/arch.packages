@@ -1,0 +1,27 @@
+[Unit]
+Description=Kubernetes API Server
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+After=network.target
+
+[Service]
+Environment=INDEX=0
+Environment=IP_INT=10.130.0.1
+
+ExecStart=/usr/bin/hyperkube apiserver \
+    --bind-address=0.0.0.0 \
+    --secure-port=443 \
+    --insecure-port=8080 \
+    --etcd-servers=http://${IP_INT}:2379 \
+    --storage-backend=etcd3 \
+    --allow-privileged=true \
+    --service-cluster-ip-range=10.3.0.0/24 \
+    --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota \
+    --tls-cert-file=/etc/kubernetes/secrets/apiserver.crt \
+    --tls-private-key-file=/etc/kubernetes/secrets/apiserver.key \
+    --service-account-key-file=/etc/kubernetes/secrets/service-account.pub \
+    --client-ca-file=/etc/kubernetes/secrets/ca.crt \
+    --cloud-provider= \
+    --anonymous-auth=false
+
+Type=notify
+LimitNOFILE=65536
