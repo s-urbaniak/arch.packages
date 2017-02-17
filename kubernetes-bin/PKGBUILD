@@ -1,0 +1,23 @@
+#Maintainer sur <sergiusz.urbaniak@gmail.com>
+
+pkgname=kubernetes-bin
+_pkgname=kubernetes
+pkgver=1.5.3
+pkgrel=1
+pkgdesc="Production-Grade Container Scheduling and Management"
+arch=('x86_64')
+url='https://github.com/kubernetes/kubernetes'
+licence=('MIT')
+provides=("kubernetes=${pkgver}")
+conflicts=('kubernetes')
+source_x86_64=("https://dl.k8s.io/v${pkgver}/kubernetes-server-linux-amd64.tar.gz")
+md5sums_x86_64=( '968306d3e9ad08d104de4d10603ea89d')
+
+_PKGARCH=amd64
+
+package() {
+    cd $srcdir
+    install -Dm755 "kubernetes/server/bin/kubectl" "${pkgdir}/usr/bin/kubectl"
+    install -Dm755 "kubernetes/server/bin/kubefed" "${pkgdir}/usr/bin/kubefed"
+    install -Dm755 "kubernetes/server/bin/hyperkube" "${pkgdir}/usr/bin/hyperkube"
+}

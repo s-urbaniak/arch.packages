@@ -1,0 +1,28 @@
+#Maintainer sur <sergiusz.urbaniak@gmail.com>
+
+pkgname=etcd-bin
+_pkgname=etcd
+pkgver=3.1.0
+pkgrel=1
+pkgdesc="Distributed reliable key-value store for the most critical data of a distributed system"
+arch=('x86_64')
+url='https://github.com/coreos/etcd'
+licence=('MIT')
+provides=("etcd=${pkgver}")
+conflicts=('etcd')
+source_x86_64=("https://github.com/coreos/etcd/releases/download/v${pkgver}/${_pkgname}-v${pkgver}-linux-amd64.tar.gz")
+md5sums_x86_64=('1467a5e17762dd9cc21765d841b4ad41')
+
+_PKGARCH=amd64
+
+package() {
+    cd $srcdir
+    install -Dm755 "${_pkgname}-v${pkgver}-linux-amd64/etcd" "${pkgdir}/usr/bin/etcd"
+    install -Dm755 "${_pkgname}-v${pkgver}-linux-amd64/etcdctl" "${pkgdir}/usr/bin/etcdctl"
+
+    install -dm755 "$pkgdir/usr/share/doc/etcd/Documentation"
+    cp -r ${_pkgname}-v${pkgver}-linux-amd64/Documentation/* "$pkgdir/usr/share/doc/etcd/Documentation/"
+
+    install -Dm644 "${_pkgname}-v${pkgver}-linux-amd64/README.md" "$pkgdir/usr/share/doc/etcd/README.md"
+    install -Dm644 "${_pkgname}-v${pkgver}-linux-amd64/READMEv2-etcdctl.md" "$pkgdir/usr/share/doc/etcd/READMEv2-etcdctl.md"
+}
