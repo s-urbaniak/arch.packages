@@ -4,14 +4,18 @@ Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 After=apiserver.service
 
 [Service]
-Environment=IP_INT=10.130.0.1
+Environment=IP_INT=10.1.1.1
 
 ExecStart=/usr/bin/hyperkube controller-manager \
-  --address ${IP_INT} \
-  --root-ca-file /etc/kubernetes/secrets/ca.crt \
-  --service-account-private-key-file /etc/kubernetes/secrets/service-account.key \
-  --leader-elect \
-  --master http://localhost:8080
+  --address=${IP_INT} \
+  --cluster-signing-cert-file=/etc/kubernetes/tls/ca.crt \
+  --cluster-signing-key-file=/etc/kubernetes/tls/ca.key \
+  --root-ca-file=/etc/kubernetes/tls/ca.crt \
+  --service-account-private-key-file=/etc/kubernetes/tls/service-account.key \
+  --leader-elect=true \
+  --kubeconfig=/etc/kubernetes/auth/kubeconfig \
+  --cluster-cidr=10.2.0.0/16 \
+  --service-cluster-ip-range=10.3.0.0/16
 
 Restart=on-failure
 # Type=notify # hyperkube seems not to signal

@@ -4,11 +4,11 @@ Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 After=apiserver.service
 
 [Service]
-Environment=IP_INT=10.130.0.1
+Environment=IP_INT=10.1.1.1
 
 ExecStart=/usr/bin/hyperkube scheduler \
     --address ${IP_INT} \
-    --master http://localhost:8080 \
+    --kubeconfig /etc/kubernetes/auth/kubeconfig \
     --leader-elect
 
 Restart=on-failure

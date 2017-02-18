@@ -6,7 +6,7 @@ After=network-online.target
 Type=notify
 TimeoutStartSec=0
 Environment=INDEX=0
-Environment=IP_INT=10.130.0.1
+Environment=IP_INT=10.1.1.1
 
 ExecStart=/usr/bin/etcd --name master${INDEX} \
   --data-dir /var/lib/etcd \
