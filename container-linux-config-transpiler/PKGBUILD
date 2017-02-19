@@ -1,0 +1,22 @@
+# Maintainer: Sergiusz Urbaniak <sergiusz.urbaniak@gmail.com>
+
+pkgname=container-linux-config-transpiler
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Launch a self-hosted Kubernetes cluster"
+url='https://github.com/kubernetes-incubator/container-linux-config-transpiler'
+arch=('i686' 'x86_64')
+license=('MPL')
+makedepends=('go' 'git')
+_gourl=github.com/coreos/container-linux-config-transpiler
+source=("${pkgname}::git+https://${_gourl}.git#tag=v${pkgver}")
+sha256sums=('SKIP')
+
+build() {
+  cd "${srcdir}"/"${pkgname}"
+  ./build
+}
+
+package() {
+  install -Dm755 "${srcdir}/"${pkgname}"/bin/ct" "${pkgdir}/usr/bin/ct"
+}
