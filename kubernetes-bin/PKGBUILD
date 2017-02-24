@@ -17,7 +17,6 @@ _PKGARCH=amd64
 
 package() {
     cd $srcdir
-    install -Dm755 "kubernetes/server/bin/kubectl" "${pkgdir}/usr/bin/kubectl"
     install -Dm755 "kubernetes/server/bin/kubefed" "${pkgdir}/usr/bin/kubefed"
     install -Dm755 "kubernetes/server/bin/hyperkube" "${pkgdir}/usr/bin/hyperkube"
 }
