@@ -1,0 +1,18 @@
+#Maintainer sur <sergiusz.urbaniak@gmail.com>
+
+pkgname=bcrypt-tool-bin
+_pkgname=bcrypt-tool
+pkgver=1.0.1
+_pkgver=1.0.0
+pkgrel=1
+pkgdesc="CLI tool which enables you to login and retrieve AWS temporary credentials using a SAML IDP"
+arch=('x86_64')
+url='https://github.com/coreos/bcrypt-tool'
+licence=('MIT')
+source_x86_64=("https://github.com/coreos/bcrypt-tool/releases/download/v${_pkgver}/bcrypt-tool-v${pkgver}-linux-amd64.tar.gz")
+md5sums_x86_64=('8f8777113c7d6dff7f56ccee8438cda3')
+
+package() {
+    cd $srcdir/${_pkgname}
+    install -Dm755 "$_pkgname" "${pkgdir}/usr/bin/${_pkgname}"
+}
