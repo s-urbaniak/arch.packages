@@ -13,3 +13,4 @@ rtags/packed-refs
 rtags/objects
 bootkube/bootkube
 container-linux-config-transpiler/container-linux-config-transpiler
+terraform/terraform
