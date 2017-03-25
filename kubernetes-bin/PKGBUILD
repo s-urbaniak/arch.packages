@@ -2,7 +2,7 @@
 
 pkgname=kubernetes-bin
 _pkgname=kubernetes
-pkgver=1.5.3
+pkgver=1.5.4
 pkgrel=1
 pkgdesc="Production-Grade Container Scheduling and Management"
 arch=('x86_64')
@@ -11,7 +11,7 @@ licence=('MIT')
 provides=("kubernetes=${pkgver}")
 conflicts=('kubernetes')
 source_x86_64=("https://dl.k8s.io/v${pkgver}/kubernetes-server-linux-amd64.tar.gz")
-md5sums_x86_64=( '968306d3e9ad08d104de4d10603ea89d')
+md5sums_x86_64=('8f18205247f0247c850e98121a1d9404')
 
 _PKGARCH=amd64
 

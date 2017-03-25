@@ -4,23 +4,26 @@ Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 After=network.target
 
 [Service]
-Environment=INDEX=0
 Environment=IP_INT=10.1.1.1
 
 ExecStart=/usr/bin/hyperkube apiserver \
-    --bind-address=0.0.0.0 \
+    --bind-address=${IP_INT} \
+    --advertise-address=${IP_INT} \
     --secure-port=443 \
-    --insecure-port=8080 \
+    --insecure-port=0 \
     \
     --etcd-servers=http://${IP_INT}:2379 \
     --storage-backend=etcd3 \
     \
+    --tls-ca-file=/etc/kubernetes/tls/ca.crt \
     --tls-cert-file=/etc/kubernetes/tls/apiserver.crt \
     --tls-private-key-file=/etc/kubernetes/tls/apiserver.key \
     --service-account-key-file=/etc/kubernetes/tls/service-account.pub \
-    --client-ca-file=/etc/kubernetes/tls/ca.crt \
     \
-    --cloud-provider= \
+    --client-ca-file=/etc/kubernetes/tls/ca.crt \
+    --kubelet-client-certificate=/etc/kubernetes/tls/kubelet.crt \
+    --kubelet-client-key=/etc/kubernetes/tls/kubelet.key \
+    \
     --anonymous-auth=false \
     --allow-privileged=true \
     --service-cluster-ip-range=10.3.0.0/16 \

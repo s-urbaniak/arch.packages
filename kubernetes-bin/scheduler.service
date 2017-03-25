@@ -8,7 +8,7 @@ Environment=IP_INT=10.1.1.1
 
 ExecStart=/usr/bin/hyperkube scheduler \
     --address ${IP_INT} \
-    --kubeconfig /etc/kubernetes/auth/kubeconfig \
+    --kubeconfig /etc/kubernetes/kubeconfig \
     --leader-elect
 
 Restart=on-failure
