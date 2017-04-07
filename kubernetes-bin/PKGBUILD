@@ -2,7 +2,7 @@
 
 pkgname=kubernetes-bin
 _pkgname=kubernetes
-pkgver=1.5.4
+pkgver=1.6.1
 pkgrel=1
 pkgdesc="Production-Grade Container Scheduling and Management"
 arch=('x86_64')
@@ -16,6 +16,12 @@ md5sums_x86_64=('8f18205247f0247c850e98121a1d9404')
 _PKGARCH=amd64
 
 package() {
+    install -Dm644 "../apiserver.service" "${pkgdir}/usr/lib/systemd/system/apiserver.service"
+    install -Dm644 "../controller-manager.service" "${pkgdir}/usr/lib/systemd/system/controller-manager.service"
+    install -Dm644 "../kubelet.service" "${pkgdir}/usr/lib/systemd/system/kubelet.service"
+    install -Dm644 "../proxy.service" "${pkgdir}/usr/lib/systemd/system/proxy.service"
+    install -Dm644 "../scheduler.service" "${pkgdir}/usr/lib/systemd/system/scheduler.service"
+
     cd $srcdir
     install -Dm755 "kubernetes/server/bin/kubefed" "${pkgdir}/usr/bin/kubefed"
     install -Dm755 "kubernetes/server/bin/hyperkube" "${pkgdir}/usr/bin/hyperkube"
