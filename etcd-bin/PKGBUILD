@@ -2,20 +2,22 @@
 
 pkgname=etcd-bin
 _pkgname=etcd
-pkgver=3.1.0
+pkgver=3.1.7
 pkgrel=1
 pkgdesc="Distributed reliable key-value store for the most critical data of a distributed system"
 arch=('x86_64')
 url='https://github.com/coreos/etcd'
-licence=('MIT')
+licence=('Apache')
 provides=("etcd=${pkgver}")
 conflicts=('etcd')
 source_x86_64=("https://github.com/coreos/etcd/releases/download/v${pkgver}/${_pkgname}-v${pkgver}-linux-amd64.tar.gz")
-md5sums_x86_64=('1467a5e17762dd9cc21765d841b4ad41')
+md5sums_x86_64=('d39c6ccaec8e1f8f7ee6591f17d95adc')
 
 _PKGARCH=amd64
 
 package() {
+    install -Dm644 "../etcd.service" "$pkgdir/usr/lib/systemd/system/etcd.service"
+
     cd $srcdir
     install -Dm755 "${_pkgname}-v${pkgver}-linux-amd64/etcd" "${pkgdir}/usr/bin/etcd"
     install -Dm755 "${_pkgname}-v${pkgver}-linux-amd64/etcdctl" "${pkgdir}/usr/bin/etcdctl"
