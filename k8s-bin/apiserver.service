@@ -12,6 +12,7 @@ ExecStart=/usr/bin/hyperkube apiserver \
     --secure-port=443 \
     --insecure-port=0 \
     \
+    --etcd-quorum-read=true \
     --etcd-servers=http://${IP_INT}:2379 \
     --storage-backend=etcd3 \
     \
@@ -24,10 +25,11 @@ ExecStart=/usr/bin/hyperkube apiserver \
     --kubelet-client-certificate=/etc/kubernetes/tls/kubelet.crt \
     --kubelet-client-key=/etc/kubernetes/tls/kubelet.key \
     \
+    --authorization-mode=RBAC \
     --anonymous-auth=false \
     --allow-privileged=true \
     --service-cluster-ip-range=10.3.0.0/16 \
-    --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota
+    --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota
 
 Type=notify
 LimitNOFILE=65536

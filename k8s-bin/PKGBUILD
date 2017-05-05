@@ -1,17 +1,17 @@
 #Maintainer sur <sergiusz.urbaniak@gmail.com>
 
-pkgname=kubernetes-bin
+pkgname=k8s-bin
 _pkgname=kubernetes
-pkgver=1.6.1
+pkgver=1.6.2
 pkgrel=1
 pkgdesc="Production-Grade Container Scheduling and Management"
 arch=('x86_64')
 url='https://github.com/kubernetes/kubernetes'
-licence=('MIT')
+licence=('Apache')
 provides=("kubernetes=${pkgver}")
 conflicts=('kubernetes')
 source_x86_64=("https://dl.k8s.io/v${pkgver}/kubernetes-server-linux-amd64.tar.gz")
-md5sums_x86_64=('8f18205247f0247c850e98121a1d9404')
+md5sums_x86_64=('6d52bed027ba4ae82aa07bd88013857a')
 
 _PKGARCH=amd64
 
