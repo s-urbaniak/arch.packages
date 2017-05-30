@@ -28,8 +28,9 @@ ExecStart=/usr/bin/hyperkube apiserver \
     --authorization-mode=RBAC \
     --anonymous-auth=false \
     --allow-privileged=true \
-    --service-cluster-ip-range=10.3.0.0/16 \
-    --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota
+    --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \
+    \
+    --service-cluster-ip-range=10.3.0.0/16
 
 Type=notify
 LimitNOFILE=65536

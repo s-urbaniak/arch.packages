@@ -2,7 +2,7 @@
 
 pkgname=kubectl-bin
 _pkgname=kubectl
-pkgver=1.6.2
+pkgver=1.6.4
 pkgrel=1
 pkgdesc="Production-Grade Container Scheduling and Management"
 arch=('x86_64')
@@ -11,7 +11,7 @@ licence=('Apache')
 provides=("kubernetes=${pkgver}")
 conflicts=('kubernetes')
 source_x86_64=("https://dl.k8s.io/v${pkgver}/kubernetes-client-linux-amd64.tar.gz")
-md5sums_x86_64=('654f46ca14a0f28872a44cca243af99c')
+md5sums_x86_64=('edbf2277bab39f1a1c17b5c87a1514df')
 
 _PKGARCH=amd64
 

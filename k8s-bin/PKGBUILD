@@ -8,8 +8,9 @@ pkgdesc="Production-Grade Container Scheduling and Management"
 arch=('x86_64')
 url='https://github.com/kubernetes/kubernetes'
 licence=('Apache')
-provides=("kubernetes=${pkgver}")
+provides=("k8s-bin=${pkgver}")
 conflicts=('kubernetes')
+makedepends=('cfssl')
 source_x86_64=("https://dl.k8s.io/v${pkgver}/kubernetes-server-linux-amd64.tar.gz")
 md5sums_x86_64=('6d52bed027ba4ae82aa07bd88013857a')
 

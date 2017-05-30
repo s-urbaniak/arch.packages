@@ -12,6 +12,7 @@ ExecStart=/usr/bin/hyperkube kubelet \
   --read-only-port=0 \
   \
   --kubeconfig=/etc/kubernetes/kubeconfig \
+  --pod-manifest-path=/etc/kubernetes/manifests \
   --require-kubeconfig=true \
   \
   --anonymous-auth=false \
