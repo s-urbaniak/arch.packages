@@ -11,10 +11,16 @@ Environment=IP_INT=10.1.1.1
 ExecStart=/usr/bin/etcd --name master${INDEX} \
   --data-dir /var/lib/etcd \
   \
-  --listen-client-urls "http://0.0.0.0:2379" \
-  --advertise-client-urls "http://${IP_INT}:2379" \
+  --advertise-client-urls "https://${IP_INT}:2379" \
+  --listen-client-urls "https://0.0.0.0:2379" \
+  --listen-peer-urls "https://0.0.0.0:2380" \
   \
-  --listen-peer-urls "http://0.0.0.0:2380" \
+  --cert-file=/etc/kubernetes/tls/etcd.crt \
+  --key-file=/etc/kubernetes/tls/etcd.key \
+  \
+  --peer-cert-file=/etc/kubernetes/tls/etcd.crt \
+  --peer-key-file=/etc/kubernetes/tls/etcd.key \
+  --peer-trusted-ca-file=/etc/kubernetes/tls/ca.crt \
   \
   --heartbeat-interval 200 \
   --election-timeout 5000

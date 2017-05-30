@@ -6,14 +6,16 @@ After=network.target
 [Service]
 Environment=IP_INT=10.1.1.1
 
-ExecStart=/usr/bin/hyperkube apiserver \
+ExecStart=/home/sur/src/k8s/bin/hyperkube apiserver \
+    --v=7 \
     --bind-address=${IP_INT} \
     --advertise-address=${IP_INT} \
     --secure-port=443 \
     --insecure-port=0 \
     \
     --etcd-quorum-read=true \
-    --etcd-servers=http://${IP_INT}:2379 \
+    --etcd-servers=https://${IP_INT}:2379 \
+    --etcd-cafile=/etc/kubernetes/tls/ca.crt \
     --storage-backend=etcd3 \
     \
     --tls-ca-file=/etc/kubernetes/tls/ca.crt \
