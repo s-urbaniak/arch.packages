@@ -9,7 +9,7 @@ Environment=IP_INT=10.1.1.1
 ExecStart=/usr/bin/hyperkube proxy \
     --bind-address=${IP_INT} \
     --hostname-override ${IP_INT} \
-    --kubeconfig /etc/kubernetes/kubeconfig \
+    --kubeconfig /etc/kubernetes/tls/kubeconfig \
     --cluster-cidr 10.2.0.0/16
 
 Restart=on-failure

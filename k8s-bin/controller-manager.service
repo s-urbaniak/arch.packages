@@ -13,7 +13,7 @@ ExecStart=/usr/bin/hyperkube controller-manager \
     --root-ca-file=/etc/kubernetes/tls/ca.crt \
     --service-account-private-key-file=/etc/kubernetes/tls/service-account.key \
     --leader-elect=true \
-    --kubeconfig=/etc/kubernetes/kubeconfig \
+    --kubeconfig=/etc/kubernetes/tls/kubeconfig \
     --cluster-cidr=10.2.0.0/16 \
     --service-cluster-ip-range=10.3.0.0/16
 

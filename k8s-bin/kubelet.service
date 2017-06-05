@@ -11,7 +11,7 @@ ExecStart=/usr/bin/hyperkube kubelet \
   --hostname-override=${IP_INT} \
   --read-only-port=0 \
   \
-  --kubeconfig=/etc/kubernetes/kubeconfig \
+  --kubeconfig=/etc/kubernetes/tls/kubeconfig \
   --pod-manifest-path=/etc/kubernetes/manifests \
   --require-kubeconfig=true \
   \
