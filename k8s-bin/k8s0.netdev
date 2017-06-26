@@ -1,0 +1,4 @@
+[NetDev]
+Name=k8s0
+Kind=bridge
+

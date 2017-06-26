@@ -1,9 +1,14 @@
 #Maintainer sur <sergiusz.urbaniak@gmail.com>
 
 pkgname=k8s-bin
+
 _pkgname=kubernetes
-pkgver=1.6.4
+pkgver=1.6.6
 pkgrel=1
+
+_etcd_pkgname=etcd
+_etcd_pkgver=3.1.7
+
 pkgdesc="Production-Grade Container Scheduling and Management"
 arch=('x86_64')
 url='https://github.com/kubernetes/kubernetes'
@@ -11,8 +16,14 @@ licence=('Apache')
 provides=("k8s-bin=${pkgver}")
 conflicts=('kubernetes')
 makedepends=('openssl')
-source_x86_64=("https://dl.k8s.io/v${pkgver}/kubernetes-server-linux-amd64.tar.gz")
-md5sums_x86_64=('d386355517e9bf4a6510338626d19100')
+
+source_x86_64=(
+    "https://dl.k8s.io/v${pkgver}/kubernetes-server-linux-amd64.tar.gz"
+    "https://github.com/coreos/etcd/releases/download/v${_etcd_pkgver}/${_etcd_pkgname}-v${_etcd_pkgver}-linux-amd64.tar.gz"
+)
+
+md5sums_x86_64=('21d83fce429c703994c586dab8ea366f'
+                'd39c6ccaec8e1f8f7ee6591f17d95adc')
 
 _PKGARCH=amd64
 
@@ -30,12 +41,12 @@ build() {
     openssl req -new -key kubelet.key -out kubelet.csr -subj "/CN=kubelet/O=system:masters" -config ../../openssl-kubelet.cnf
     openssl x509 -req -in kubelet.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out kubelet.crt -days 365 -extensions v3_req -extfile ../../openssl-kubelet.cnf
 
+    openssl genrsa -out service-account.key 2048
+    openssl rsa -in service-account.key -pubout >service-account.pub
+
     openssl genrsa -out etcd.key 2048
     openssl req -new -key etcd.key -out etcd.csr -subj "/CN=etcd" -config ../../openssl-etcd.cnf
     openssl x509 -req -in etcd.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out etcd.crt -days 365 -extensions v3_req -extfile ../../openssl-etcd.cnf
-
-    openssl genrsa -out service-account.key 2048
-    openssl rsa -in service-account.key -pubout >service-account.pub
 
     cat >kubeconfig <<EOF
 apiVersion: v1
@@ -58,15 +69,35 @@ EOF
 }
 
 package() {
+    # bridge network
+    install -Dm644 "../k8s0.netdev" "${pkgdir}/usr/lib/systemd/network/k8s0.netdev"
+    install -Dm644 "../k8s0.network" "${pkgdir}/usr/lib/systemd/network/k8s0.network"
+
+    # k8s control plane
     install -Dm644 "../apiserver.service" "${pkgdir}/usr/lib/systemd/system/apiserver.service"
     install -Dm644 "../controller-manager.service" "${pkgdir}/usr/lib/systemd/system/controller-manager.service"
     install -Dm644 "../kubelet.service" "${pkgdir}/usr/lib/systemd/system/kubelet.service"
     install -Dm644 "../proxy.service" "${pkgdir}/usr/lib/systemd/system/proxy.service"
     install -Dm644 "../scheduler.service" "${pkgdir}/usr/lib/systemd/system/scheduler.service"
 
+    # TLS assets
     install -dm755 "${pkgdir}/etc/kubernetes/tls"
     cp -r "${srcdir}"/tls/* "${pkgdir}/etc/kubernetes/tls/"
 
+    # k8s binaries
     install -Dm755 "kubernetes/server/bin/kubefed" "${pkgdir}/usr/bin/kubefed"
     install -Dm755 "kubernetes/server/bin/hyperkube" "${pkgdir}/usr/bin/hyperkube"
+
+    # etcd
+    install -Dm644 "../etcd.service" "$pkgdir/usr/lib/systemd/system/etcd.service"
+
+    cd $srcdir
+    install -Dm755 "${_etcd_pkgname}-v${_etcd_pkgver}-linux-amd64/etcd" "${pkgdir}/usr/bin/etcd"
+    install -Dm755 "${_etcd_pkgname}-v${_etcd_pkgver}-linux-amd64/etcdctl" "${pkgdir}/usr/bin/etcdctl"
+
+    install -dm755 "$pkgdir/usr/share/doc/etcd/Documentation"
+    cp -r ${_etcd_pkgname}-v${_etcd_pkgver}-linux-amd64/Documentation/* "$pkgdir/usr/share/doc/etcd/Documentation/"
+
+    install -Dm644 "${_etcd_pkgname}-v${_etcd_pkgver}-linux-amd64/README.md" "$pkgdir/usr/share/doc/etcd/README.md"
+    install -Dm644 "${_etcd_pkgname}-v${_etcd_pkgver}-linux-amd64/READMEv2-etcdctl.md" "$pkgdir/usr/share/doc/etcd/READMEv2-etcdctl.md"
 }

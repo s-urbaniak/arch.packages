@@ -6,8 +6,7 @@ After=network.target
 [Service]
 Environment=IP_INT=10.1.1.1
 
-ExecStart=/home/sur/src/k8s/bin/hyperkube apiserver \
-    --v=7 \
+ExecStart=/usr/bin/hyperkube apiserver \
     --bind-address=${IP_INT} \
     --advertise-address=${IP_INT} \
     --secure-port=443 \
