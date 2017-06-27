@@ -7,7 +7,7 @@ pkgver=1.6.6
 pkgrel=1
 
 _etcd_pkgname=etcd
-_etcd_pkgver=3.1.7
+_etcd_pkgver=3.1.8
 
 pkgdesc="Production-Grade Container Scheduling and Management"
 arch=('x86_64')
@@ -16,6 +16,7 @@ licence=('Apache')
 provides=("k8s-bin=${pkgver}")
 conflicts=('kubernetes')
 makedepends=('openssl')
+depends=('docker=1:1.12.6-1')
 
 source_x86_64=(
     "https://dl.k8s.io/v${pkgver}/kubernetes-server-linux-amd64.tar.gz"
@@ -23,7 +24,7 @@ source_x86_64=(
 )
 
 md5sums_x86_64=('21d83fce429c703994c586dab8ea366f'
-                'd39c6ccaec8e1f8f7ee6591f17d95adc')
+                '795597f92e6c1b0675cee19610a7114b')
 
 _PKGARCH=amd64
 
@@ -69,6 +70,9 @@ EOF
 }
 
 package() {
+    # docker drop-in
+    install -Dm644 "../10-podnet.conf" "${pkgdir}/usr/lib/systemd/system/docker.service.d/10-podnet.conf"
+
     # bridge network
     install -Dm644 "../k8s0.netdev" "${pkgdir}/usr/lib/systemd/network/k8s0.netdev"
     install -Dm644 "../k8s0.network" "${pkgdir}/usr/lib/systemd/network/k8s0.network"
