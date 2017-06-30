@@ -3,11 +3,11 @@
 pkgname=k8s-bin
 
 _pkgname=kubernetes
-pkgver=1.6.6
+pkgver=1.7.0
 pkgrel=1
 
 _etcd_pkgname=etcd
-_etcd_pkgver=3.1.8
+_etcd_pkgver=3.2.1
 
 pkgdesc="Production-Grade Container Scheduling and Management"
 arch=('x86_64')
@@ -21,8 +21,8 @@ depends=('docker=1:1.12.6-1')
 source_x86_64=("https://dl.k8s.io/v${pkgver}/kubernetes-server-linux-amd64.tar.gz"
                "https://github.com/coreos/etcd/releases/download/v${_etcd_pkgver}/${_etcd_pkgname}-v${_etcd_pkgver}-linux-amd64.tar.gz")
 
-md5sums_x86_64=('21d83fce429c703994c586dab8ea366f'
-                '795597f92e6c1b0675cee19610a7114b')
+md5sums_x86_64=('b9a8dd23d2d66d65defb327b0cec84a7'
+                'c95307e6d743277d84d85c33596196bc')
 
 _PKGARCH=amd64
 
