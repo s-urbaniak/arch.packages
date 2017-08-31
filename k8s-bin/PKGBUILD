@@ -22,7 +22,7 @@ depends=('docker=1:1.12.6-1')
 source_x86_64=("https://dl.k8s.io/v${pkgver}/kubernetes-server-linux-amd64.tar.gz"
                "https://github.com/coreos/etcd/releases/download/v${_etcd_pkgver}/${_etcd_pkgname}-v${_etcd_pkgver}-linux-amd64.tar.gz")
 
-md5sums_x86_64=('bbbccc896c39b19b73b1a939d042c75e'
+md5sums_x86_64=('c15c28acb8557883bec4d41c962444be'
                 '0b9ae0d2fb96eabe612d6edd9bc0912a')
 
 _PKGARCH=amd64
