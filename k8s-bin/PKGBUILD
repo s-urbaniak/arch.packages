@@ -3,11 +3,12 @@
 pkgname=k8s-bin
 
 _pkgname=kubernetes
-pkgver=1.7.0
+pkgver=1.7.5
 pkgrel=1
 
+# see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG.md#external-dependency-version-information
 _etcd_pkgname=etcd
-_etcd_pkgver=3.2.1
+_etcd_pkgver=3.0.17
 
 pkgdesc="Production-Grade Container Scheduling and Management"
 arch=('x86_64')
@@ -21,13 +22,37 @@ depends=('docker=1:1.12.6-1')
 source_x86_64=("https://dl.k8s.io/v${pkgver}/kubernetes-server-linux-amd64.tar.gz"
                "https://github.com/coreos/etcd/releases/download/v${_etcd_pkgver}/${_etcd_pkgname}-v${_etcd_pkgver}-linux-amd64.tar.gz")
 
-md5sums_x86_64=('b9a8dd23d2d66d65defb327b0cec84a7'
-                'c95307e6d743277d84d85c33596196bc')
+md5sums_x86_64=('bbbccc896c39b19b73b1a939d042c75e'
+                '0b9ae0d2fb96eabe612d6edd9bc0912a')
 
 _PKGARCH=amd64
 
+_API_SERVER_IP="10.1.1.1"
+_DNS_SERVER_IP="10.3.0.10"
+_DNS_DOMAIN="cluster.local"
+
 build() {
-    mkdir tls
+    mkdir -p dns
+    cd dns
+    curl -L -s https://raw.githubusercontent.com/kubernetes/kubernetes/v${pkgver}/cluster/addons/dns/kubedns-svc.yaml.sed \
+        | sed -e "s/\$DNS_SERVER_IP/${DNS_SERVER_IP}/g" -e "s/\$DNS_DOMAIN/${DNS_DOMAIN}/g" \
+              > kubedns.yaml
+
+    echo "---" >> kubedns.yaml
+    curl -L -s https://raw.githubusercontent.com/kubernetes/kubernetes/v${pkgver}/cluster/addons/dns/kubedns-controller.yaml.sed \
+        | sed -e "s/\$DNS_SERVER_IP/${DNS_SERVER_IP}/g" -e "s/\$DNS_DOMAIN/${DNS_DOMAIN}/g" \
+              >> kubedns.yaml
+
+    echo "---" >> kubedns.yaml
+    curl -L -s https://raw.githubusercontent.com/kubernetes/kubernetes/v${pkgver}/cluster/addons/dns/kubedns-cm.yaml \
+         >> kubedns.yaml
+
+    echo "---" >> kubedns.yaml
+    curl -L -s https://raw.githubusercontent.com/kubernetes/kubernetes/v${pkgver}/cluster/addons/dns/kubedns-sa.yaml \
+         >> kubedns.yaml
+    cd ..
+
+    mkdir -p tls
     cd tls
     openssl genrsa -out ca.key 2048
     openssl req -x509 -new -nodes -key ca.key -days 10000 -out ca.crt -subj "/CN=kube-ca"
@@ -53,7 +78,7 @@ kind: Config
 clusters:
 - name: local
   cluster:
-    server: https://10.1.1.1
+    server: https://${API_SERVER_IP}
     certificate-authority-data: $(base64 -w 0 ca.crt)
 users:
 - name: kubelet
@@ -86,6 +111,9 @@ package() {
     install -dm755 "${pkgdir}/etc/kubernetes/tls"
     cp -r "${srcdir}"/tls/* "${pkgdir}/etc/kubernetes/tls/"
 
+    install -dm755 "${pkgdir}/etc/kubernetes/yaml"
+    cp -r "${srcdir}"/dns/* "${pkgdir}/etc/kubernetes/yaml/"
+
     # k8s binaries
     install -Dm755 "kubernetes/server/bin/kubefed" "${pkgdir}/usr/bin/kubefed"
     install -Dm755 "kubernetes/server/bin/hyperkube" "${pkgdir}/usr/bin/hyperkube"
@@ -96,10 +124,4 @@ package() {
     cd $srcdir
     install -Dm755 "${_etcd_pkgname}-v${_etcd_pkgver}-linux-amd64/etcd" "${pkgdir}/usr/bin/etcd"
     install -Dm755 "${_etcd_pkgname}-v${_etcd_pkgver}-linux-amd64/etcdctl" "${pkgdir}/usr/bin/etcdctl"
-
-    install -dm755 "$pkgdir/usr/share/doc/etcd/Documentation"
-    cp -r ${_etcd_pkgname}-v${_etcd_pkgver}-linux-amd64/Documentation/* "$pkgdir/usr/share/doc/etcd/Documentation/"
-
-    install -Dm644 "${_etcd_pkgname}-v${_etcd_pkgver}-linux-amd64/README.md" "$pkgdir/usr/share/doc/etcd/README.md"
-    install -Dm644 "${_etcd_pkgname}-v${_etcd_pkgver}-linux-amd64/READMEv2-etcdctl.md" "$pkgdir/usr/share/doc/etcd/READMEv2-etcdctl.md"
 }
