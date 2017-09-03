@@ -35,12 +35,12 @@ build() {
     mkdir -p dns
     cd dns
     curl -L -s https://raw.githubusercontent.com/kubernetes/kubernetes/v${pkgver}/cluster/addons/dns/kubedns-svc.yaml.sed \
-        | sed -e "s/\$DNS_SERVER_IP/${DNS_SERVER_IP}/g" -e "s/\$DNS_DOMAIN/${DNS_DOMAIN}/g" \
+        | sed -e "s/\$DNS_SERVER_IP/${_DNS_SERVER_IP}/g" -e "s/\$DNS_DOMAIN/${_DNS_DOMAIN}/g" \
               > kubedns.yaml
 
     echo "---" >> kubedns.yaml
     curl -L -s https://raw.githubusercontent.com/kubernetes/kubernetes/v${pkgver}/cluster/addons/dns/kubedns-controller.yaml.sed \
-        | sed -e "s/\$DNS_SERVER_IP/${DNS_SERVER_IP}/g" -e "s/\$DNS_DOMAIN/${DNS_DOMAIN}/g" \
+        | sed -e "s/\$DNS_SERVER_IP/${_DNS_SERVER_IP}/g" -e "s/\$DNS_DOMAIN/${_DNS_DOMAIN}/g" \
               >> kubedns.yaml
 
     echo "---" >> kubedns.yaml
@@ -78,7 +78,7 @@ kind: Config
 clusters:
 - name: local
   cluster:
-    server: https://${API_SERVER_IP}
+    server: https://${_API_SERVER_IP}
     certificate-authority-data: $(base64 -w 0 ca.crt)
 users:
 - name: kubelet
