@@ -1,14 +1,14 @@
 # Maintainer: Sergiusz Urbaniak <sergiusz.urbaniak@gmail.com>
 
 pkgname=container-linux-config-transpiler
-pkgver=0.4.2
+pkgver=0.5.0
 pkgrel=1
 pkgdesc="Launch a self-hosted Kubernetes cluster"
 url='https://github.com/coreos/container-linux-config-transpiler'
 arch=('x86_64')
 license=('Apache')
 source_x86_64=("https://github.com/coreos/${pkgname}/releases/download/v${pkgver}/ct-v${pkgver}-x86_64-unknown-linux-gnu")
-sha256sums_x86_64=('9b6e2c1a1ea9e0f85f6b1e8711932c4761965a800f3381a75f960a493162502a')
+sha256sums_x86_64=('73366e19190e5ea820fa1351e72c74523fec00375605006607efc805ff69f143')
 
 package() {
     cd $srcdir
