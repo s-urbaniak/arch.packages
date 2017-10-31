@@ -3,12 +3,12 @@
 pkgname=k8s-bin
 
 _pkgname=kubernetes
-pkgver=1.7.5
+pkgver=1.8.2
 pkgrel=1
 
 # see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG.md#external-dependency-version-information
 _etcd_pkgname=etcd
-_etcd_pkgver=3.0.17
+_etcd_pkgver=3.2.9
 
 pkgdesc="Production-Grade Container Scheduling and Management"
 arch=('x86_64')
@@ -17,13 +17,13 @@ licence=('Apache')
 provides=("k8s-bin=${pkgver}")
 conflicts=('kubernetes')
 makedepends=('openssl')
-depends=('docker=1:1.12.6-1')
+depends=('docker')
 
 source_x86_64=("https://dl.k8s.io/v${pkgver}/kubernetes-server-linux-amd64.tar.gz"
                "https://github.com/coreos/etcd/releases/download/v${_etcd_pkgver}/${_etcd_pkgname}-v${_etcd_pkgver}-linux-amd64.tar.gz")
 
 md5sums_x86_64=('c15c28acb8557883bec4d41c962444be'
-                '0b9ae0d2fb96eabe612d6edd9bc0912a')
+                '5c7ce293a1087727c99ca8ed39c94f05')
 
 _PKGARCH=amd64
 
