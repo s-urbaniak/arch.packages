@@ -1,6 +1,0 @@
-[Match]
-Name=k8s0
-
-[Network]
-Address=10.1.1.1/24
-

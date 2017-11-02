@@ -1,0 +1,18 @@
+[Unit]
+Description=k8s0 bridge setup
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStartPre=/usr/bin/sysctl net.ipv4.ip_forward=1
+ExecStartPre=/usr/bin/ip link add k8s0 type bridge
+ExecStartPre=/usr/bin/ip link set k8s0 up
+ExecStartPre=/usr/bin/ip addr add 10.1.1.1/24 dev k8s0
+ExecStartPre=/usr/bin/iptables -t nat -A POSTROUTING -j MASQUERADE
+ExecStartPre=/usr/bin/iptables -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+ExecStartPre=/usr/bin/iptables -A FORWARD -i k8s0 -j ACCEPT
+ExecStart=/usr/bin/echo "started k8s bridge"
+
+ExecStopPost=/usr/bin/ip link set k8s0 down
+ExecStop=/usr/bin/ip link delete k8s0
+
