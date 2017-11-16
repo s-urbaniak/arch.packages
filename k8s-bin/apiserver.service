@@ -9,8 +9,8 @@ Environment=IP_INT=10.1.1.1
 ExecStart=/usr/bin/hyperkube apiserver \
     --bind-address=${IP_INT} \
     --advertise-address=${IP_INT} \
-    --secure-port=443 \
-    --insecure-port=0 \
+    --secure-port=4433 \
+    --insecure-port=8080 \
     \
     --etcd-quorum-read=true \
     --etcd-servers=https://${IP_INT}:2379 \
@@ -31,7 +31,9 @@ ExecStart=/usr/bin/hyperkube apiserver \
     --allow-privileged=true \
     --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \
     \
-    --service-cluster-ip-range=10.3.0.0/16
+    --service-cluster-ip-range=10.3.0.0/16 \
+    \
+    --feature-gates=PersistentLocalVolumes=true
 
 Type=notify
 LimitNOFILE=65536

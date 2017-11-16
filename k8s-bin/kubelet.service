@@ -20,7 +20,10 @@ ExecStart=/usr/bin/hyperkube kubelet \
   --authorization-mode=Webhook \
   \
   --cluster-dns=10.3.0.10 \
-  --cluster-domain=cluster.local
+  --cluster-domain=cluster.local \
+  --allow-privileged=true \
+  --node-labels=node-role.kubernetes.io/host \
+  --feature-gates=PersistentLocalVolumes=true
 
 Restart=on-failure
 # Type=notify # hyperkube seems not to signal
