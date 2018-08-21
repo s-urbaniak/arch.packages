@@ -9,15 +9,12 @@ Environment=IP_INT=10.1.1.1
 ExecStart=/usr/bin/hyperkube apiserver \
     --bind-address=${IP_INT} \
     --advertise-address=${IP_INT} \
-    --secure-port=4433 \
-    --insecure-port=8080 \
+    --secure-port=443 \
     \
-    --etcd-quorum-read=true \
     --etcd-servers=https://${IP_INT}:2379 \
     --etcd-cafile=/etc/kubernetes/tls/ca.crt \
     --storage-backend=etcd3 \
     \
-    --tls-ca-file=/etc/kubernetes/tls/ca.crt \
     --tls-cert-file=/etc/kubernetes/tls/apiserver.crt \
     --tls-private-key-file=/etc/kubernetes/tls/apiserver.key \
     --service-account-key-file=/etc/kubernetes/tls/service-account.pub \
@@ -29,7 +26,7 @@ ExecStart=/usr/bin/hyperkube apiserver \
     --authorization-mode=RBAC \
     --anonymous-auth=false \
     --allow-privileged=true \
-    --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \
+    --enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \
     \
     --service-cluster-ip-range=10.3.0.0/16 \
     \
