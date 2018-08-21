@@ -1,8 +1,0 @@
-[Unit]
-Description=RTags Server
-
-[Socket]
-ListenStream=%h/.rdm
-
-[Install]
-WantedBy=default.target

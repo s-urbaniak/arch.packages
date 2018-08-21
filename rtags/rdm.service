@@ -1,9 +1,0 @@
-[Unit]
-Description=RTags Server
-
-[Service]
-Type=simple
-ExecStart=/usr/bin/rdm
-
-[Install]
-WantedBy=default.target
