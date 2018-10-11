@@ -79,9 +79,6 @@ EOF
 }
 
 package() {
-    # docker drop-in
-    install -Dm644 "../10-podnet.conf" "${pkgdir}/usr/lib/systemd/system/docker.service.d/10-podnet.conf"
-
     # bridge network
     install -Dm644 "../k8s0.service" "${pkgdir}/usr/lib/systemd/system/k8s0.service"
 
