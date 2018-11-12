@@ -3,7 +3,7 @@
 pkgname=k8s-bin
 
 _pkgname=kubernetes
-pkgver=1.11.2
+pkgver=1.12.2
 pkgrel=1
 
 # see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG.md#external-dependency-version-information
@@ -20,9 +20,11 @@ makedepends=('openssl')
 depends=('containerd')
 
 source_x86_64=("https://dl.k8s.io/v${pkgver}/kubernetes-server-linux-amd64.tar.gz"
-               "https://github.com/coreos/etcd/releases/download/v${_etcd_pkgver}/${_etcd_pkgname}-v${_etcd_pkgver}-linux-amd64.tar.gz")
+               "https://raw.githubusercontent.com/kubernetes/kubernetes/v${pkgver}/cluster/addons/dns/coredns/coredns.yaml.sed"
+               "https://github.com/etcd-io/etcd/releases/download/v${_etcd_pkgver}/${_etcd_pkgname}-v${_etcd_pkgver}-linux-amd64.tar.gz")
 
-md5sums_x86_64=('89fa567b0e20bb2ac952512a985419fe'
+md5sums_x86_64=('0ad6fc0acb936eba619ae022c8826783'
+                '2a650c892e68606c171ed60639549dba'
                 '86cd7e13d9d29106f9e8c8637eccdde5')
 
 _PKGARCH=amd64
@@ -32,7 +34,7 @@ _DNS_SERVER_IP="10.3.0.10"
 _DNS_DOMAIN="cluster.local"
 
 build() {
-    curl -L -s https://raw.githubusercontent.com/kubernetes/kubernetes/v${pkgver}/cluster/addons/dns/coredns/coredns.yaml.sed \
+    cat coredns.yaml.sed \
         | sed -e "s/\$DNS_SERVER_IP/${_DNS_SERVER_IP}/g" -e "s/\$DNS_DOMAIN/${_DNS_DOMAIN}/g" \
               > kubedns.yaml
 
@@ -40,6 +42,7 @@ build() {
 
     mkdir -p tls
     cd tls
+    # kube
     openssl genrsa -out ca.key 2048
     openssl req -x509 -new -nodes -key ca.key -days 10000 -out ca.crt -subj "/CN=kube-ca"
 
@@ -54,6 +57,15 @@ build() {
     openssl genrsa -out service-account.key 2048
     openssl rsa -in service-account.key -pubout >service-account.pub
 
+    # aggregator
+    openssl genrsa -out agg-ca.key 2048
+    openssl req -x509 -new -nodes -key agg-ca.key -days 10000 -out agg-ca.crt -subj "/CN=kube-aggregator-ca"
+
+    openssl genrsa -out proxy-client.key 2048
+    openssl req -new -key proxy-client.key -out proxy-client.csr -subj "/CN=proxy-client" -config ../../openssl-agg.cnf
+    openssl x509 -req -in proxy-client.csr -CA agg-ca.crt -CAkey agg-ca.key -CAcreateserial -out proxy-client.crt -days 365 -extensions v3_req -extfile ../../openssl-agg.cnf
+
+    # etcd
     openssl genrsa -out etcd.key 2048
     openssl req -new -key etcd.key -out etcd.csr -subj "/CN=etcd" -config ../../openssl-etcd.cnf
     openssl x509 -req -in etcd.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out etcd.crt -days 365 -extensions v3_req -extfile ../../openssl-etcd.cnf

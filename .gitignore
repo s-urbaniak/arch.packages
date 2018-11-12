@@ -14,3 +14,4 @@ rtags/objects
 bootkube/bootkube
 container-linux-config-transpiler/ct-*-unknown-linux-gnu
 terraform/terraform
+k8s-bin/coredns.yaml.sed
