@@ -1,0 +1,25 @@
+pkgname=go-langserver
+pkgdesc="Go Language Server"
+pkgver=6d238ad
+pkgrel=1
+arch=('x86_64')
+url="https://github.com/sourcegraph/go-langserver"
+license=('MIT')
+makedepends=('go')
+source=("git+https://github.com/sourcegraph/go-langserver#commit=${pkgver}")
+sha256sums=('SKIP')
+
+prepare() {
+    mkdir -p gopath/src/github.com/sourcegraph
+    ln -rTsf $pkgname gopath/src/github.com/sourcegraph/go-langserver
+}
+
+build() {
+    export GOPATH="$srcdir"/gopath
+    cd gopath/src/github.com/sourcegraph/go-langserver
+    go install -v
+}
+
+package() {
+    install -Dm755 gopath/bin/$pkgname "$pkgdir"/usr/bin/$pkgname
+}
