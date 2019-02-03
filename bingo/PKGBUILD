@@ -1,0 +1,19 @@
+pkgname=bingo
+pkgdesc="Go Language Server"
+pkgver=76b11e9
+pkgrel=1
+arch=('x86_64')
+url="https://github.com/saibing/bingo"
+license=('MIT')
+makedepends=('go')
+source=("git+${url}#commit=${pkgver}")
+sha256sums=('SKIP')
+
+build() {
+    cd $pkgname
+    GO111MODULE=on go build -v
+}
+
+package() {
+    install -Dm755 $pkgname/$pkgname "$pkgdir"/usr/bin/go-langserver
+}
