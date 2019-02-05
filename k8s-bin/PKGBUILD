@@ -3,12 +3,12 @@
 pkgname=k8s-bin
 
 _pkgname=kubernetes
-pkgver=1.12.3
+pkgver=1.13.3
 pkgrel=1
 
-# see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG.md#external-dependency-version-information
+# see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.13.md#external-dependencies
 _etcd_pkgname=etcd
-_etcd_pkgver=3.2.18
+_etcd_pkgver=3.2.24
 
 pkgdesc="Production-Grade Container Scheduling and Management"
 arch=('x86_64')
@@ -23,9 +23,9 @@ source_x86_64=("https://dl.k8s.io/v${pkgver}/kubernetes-server-linux-amd64.tar.g
                "https://raw.githubusercontent.com/kubernetes/kubernetes/v${pkgver}/cluster/addons/dns/coredns/coredns.yaml.sed"
                "https://github.com/etcd-io/etcd/releases/download/v${_etcd_pkgver}/${_etcd_pkgname}-v${_etcd_pkgver}-linux-amd64.tar.gz")
 
-md5sums_x86_64=('e54a345bf419d657f4c79ab4db878b69'
-                '2a650c892e68606c171ed60639549dba'
-                '86cd7e13d9d29106f9e8c8637eccdde5')
+md5sums_x86_64=('9a8a559c3897131570d9e7d9c502855a'
+                '6d99863353aa4b70e25ab4cd025d6e83'
+                'f54ec062601df92591aac748eca664e2')
 
 _PKGARCH=amd64
 
