@@ -1,0 +1,18 @@
+#Maintainer sur <sergiusz.urbaniak@gmail.com>
+
+pkgname=oc-bin
+_pkgname=oc
+pkgver=4.0.0_0.139.0
+pkgrel=1
+pkgdesc="OpenShift command line"
+arch=('x86_64')
+url='https://www.openshift.com/'
+provides=("oc=${pkgver}")
+source_x86_64=("https://mirror.openshift.com/pub/openshift-v3/clients/${pkgver/_/-}/linux/oc.tar.gz")
+md5sums_x86_64=('a855876186779e43b35b427d0b2c1659')
+_PKGARCH=amd64
+
+package() {
+    cd $srcdir
+    install -Dm755 "$_pkgname" "${pkgdir}/usr/bin/${_pkgname}"
+}
