@@ -1,0 +1,26 @@
+pkgname=promtool
+pkgdesc="promtool"
+pkgver=c8a1a5a
+pkgrel=1
+arch=('x86_64')
+_path="github.com/prometheus/prometheus/cmd/promtool"
+url="https://$_path"
+license=('MIT')
+makedepends=('go')
+source=("git+https://github.com/prometheus/prometheus#commit=${pkgver}")
+sha256sums=('SKIP')
+
+prepare() {
+    mkdir -p "gopath/src/github.com/prometheus"
+    ln -rTsf prometheus "gopath/src/github.com/prometheus/prometheus"
+}
+
+build() {
+    export GOPATH="${srcdir}"/gopath
+    cd "gopath/src/${_path}"
+    go install -v
+}
+
+package() {
+    install -Dm755 gopath/bin/promtool "${pkgdir}"/usr/bin/promtool
+}
