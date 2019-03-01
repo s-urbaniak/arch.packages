@@ -1,6 +1,6 @@
 pkgname=bingo
 pkgdesc="Go Language Server"
-pkgver=76b11e9
+pkgver=b7dc704
 pkgrel=1
 arch=('x86_64')
 url="https://github.com/saibing/bingo"

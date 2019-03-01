@@ -18,3 +18,4 @@ k8s-bin/coredns.yaml.sed
 kubectl-bin/kubernetes
 go-langserver/go-langserver
 bingo/bingo
+jb/jsonnet-bundler
