@@ -1,0 +1,26 @@
+pkgname=gojsontoyaml
+pkgdesc="gojsontoyaml"
+pkgver=6337f37
+pkgrel=1
+arch=('x86_64')
+_path="github.com/brancz/gojsontoyaml"
+url="https://$_path"
+license=('MIT')
+makedepends=('go')
+source=("git+https://${_path}#commit=${pkgver}")
+sha256sums=('SKIP')
+
+prepare() {
+    mkdir -p "gopath/src/github.com/brancz"
+    ln -rTsf "${pkgname}" "gopath/src/${_path}"
+}
+
+build() {
+    export GOPATH="${srcdir}"/gopath
+    cd "gopath/src/${_path}"
+    go install -v
+}
+
+package() {
+    install -Dm755 gopath/bin/"${pkgname}" "${pkgdir}"/usr/bin/"${pkgname}"
+}
