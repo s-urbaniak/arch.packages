@@ -1,9 +1,9 @@
-pkgname=bingo
-pkgdesc="Go Language Server"
-pkgver=d224893
+pkgname=i3-focus-last
+pkgdesc="i3-focus-last"
+pkgver=a6f1923
 pkgrel=1
 arch=('x86_64')
-url="https://github.com/saibing/bingo"
+url="https://github.com/s-urbaniak/i3-focus-last"
 license=('MIT')
 makedepends=('go')
 source=("git+${url}#commit=${pkgver}")
@@ -15,5 +15,5 @@ build() {
 }
 
 package() {
-    install -Dm755 $pkgname/$pkgname "$pkgdir"/usr/bin/go-langserver
+    install -Dm755 $pkgname/$pkgname "$pkgdir"/usr/bin/$pkgname
 }
